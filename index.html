@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Who Ruined — Dota 2 Match Analyzer</title>
+<meta name="description" content="Разбор поражения в Dota 2 по Match ID: кто сильнее всего повлиял на проигрыш.">
+<link rel="preconnect" href="https://api.opendota.com" crossorigin>
+<link rel="preconnect" href="https://cdn.cloudflare.steamstatic.com">
+<link rel="preload" href="assets/who-ruined-bg.webp" as="image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="bg"></div>
+<main class="app">
+  <header>
+    <div class="eyebrow">DOTA 2 / MATCH FORENSICS</div>
+    <h1>WHO <span>RUINED?</span></h1>
+    <p class="lead">Разбор поражения по Match ID. Не просто KDA — контекст, ключевые ошибки и влияние каждого игрока.</p>
+    <form id="form" class="search">
+      <input id="matchId" inputmode="numeric" placeholder="Match ID или ссылка на матч" autocomplete="off" required>
+      <button id="submitBtn">АНАЛИЗИРОВАТЬ</button>
+    </form>
+    <div id="status" class="status" aria-live="polite"></div><div id="parseBox" class="parseBox hidden"></div>
+  </header>
+
+  <section id="result" class="hidden">
+    <div id="scoreboard" class="scoreboard"></div>
+
+    <div class="verdict">
+      <div class="verdictTop"><div class="eyebrow ruinerEyebrow">РУИНЕР</div><button id="whyRuinerBtn" type="button" class="whyRuinerBtn">ПОЧЕМУ ИМЕННО ОН?</button></div>
+      <div class="verdict-grid">
+        <div class="verdictWho">
+          <div class="verdictHero"><img id="culpritHero" src="" alt=""></div>
+          <h2 id="culpritName">—</h2>
+          <div id="culpritMeta" class="culpritMeta"></div>
+          <div class="verdictRank"><img id="culpritRank" alt=""><span id="culpritRankText">—</span></div>
+          <div class="impact"><span class="impactLabel">Влияние на поражение</span><b id="culpritScore" class="impactValue">—</b></div>
+          <div id="confidence" class="confidence">Уверенность модели —</div>
+        </div>
+        <div id="summary" class="summary"></div>
+      </div>
+      <div class="nearRuiner" id="nearRuiner"></div>
+    </div>
+
+    <div class="sectionHead"><h2>Награды матча</h2></div>
+    <div id="awards" class="awards"></div>
+
+    <div class="panel wide teamPanel" id="loserPanel">
+      <div class="panelHead"><div class="panel-title">Проигравшая команда</div><div id="loserTeamName"></div></div>
+      <p class="panelHint">Число справа — негативный score модели: чем выше, тем сильнее игрок повлиял на поражение.</p>
+      <div id="players"></div>
+    </div>
+    <div class="panel wide">
+      <div class="panelHead"><div class="panel-title">Ключевые эпизоды руинера</div></div>
+      <div id="events" class="eventsGrid"></div>
+    </div>
+    <div class="panel wide storyPanel">
+      <div class="panel-title">Как развивалась игра</div>
+      <div id="matchStory"></div>
+    </div>
+    <div class="panel wide">
+      <div class="panelHead"><div class="panel-title">Преимущество по золоту</div><div class="graphLegend"><span><i class="radDot"></i> Radiant впереди</span><span><i class="direDot"></i> Dire впереди</span></div></div>
+      <div id="goldGraph" class="goldGraph"></div>
+    </div>
+    <div class="panel wide teamPanel" id="winnerPanel">
+      <div class="panelHead"><div class="panel-title">Победившая команда</div><div id="winnerTeamName"></div></div>
+      <div id="winnerTeam"></div>
+    </div>
+    <div class="panel wide">
+      <div class="panel-title">Сравнение с ожиданиями роли</div>
+      <p class="panelHint">GPM и XPM сопоставляются с ориентиром для позиции. 100% — ровно ожидаемый уровень. Это не абсолютный рейтинг игрока.</p>
+      <div id="roleCompare" class="roleCompare"></div>
+    </div>
+  </section>
+</main>
+<div id="whyRuinerModal" class="whyModal hidden" role="dialog" aria-modal="true" aria-labelledby="whyRuinerTitle"><div class="whyModalBackdrop" data-close-why="1"></div><div class="whyModalCard"><div class="whyModalHead"><h2 id="whyRuinerTitle">Почему именно он?</h2><button id="closeWhyRuiner" type="button" class="closeWhy" aria-label="Закрыть">×</button></div><p class="whyModalIntro">Разбор основан на показателях матча и доступных игровых событиях. Это оценка модели, а не утверждение, что один игрок единолично проиграл матч.</p><div id="whyRuinerContent" class="reasons"></div></div></div>
+<script src="js/app.js" defer></script>
+</body>
+</html>
