@@ -170,3 +170,57 @@ body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;-webk
 .eventsGrid .event.neutral{border-left-color:#7a8191}
 .eventTag.neutral{color:#aab0bc;border-color:rgba(170,176,188,.3)}
 .winnerPlayerMain .posTag,.rolePlayer .posTag,.heroName .posTag{display:inline-block;margin-top:0;color:#d5dae3;font-size:10px}
+
+.sbSide{cursor:pointer;transition:transform .15s,box-shadow .2s,opacity .2s}
+.sbSide:not(.focused){opacity:.78}
+.sbSide:not(.focused):hover{opacity:1;transform:translateY(-2px)}
+.sbSide.focused{box-shadow:0 0 0 2px var(--team),0 18px 60px rgba(0,0,0,.3);opacity:1}
+.sbSide:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.sbPick{margin-top:8px;font-size:10px;color:var(--muted);letter-spacing:.3px}
+.sbSide.lost{box-shadow:0 18px 60px rgba(0,0,0,.25)}
+.sbSide.lost.focused{box-shadow:0 0 0 2px var(--team),0 18px 60px rgba(0,0,0,.3)}
+
+.teamSwitch{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:16px 0 0}
+.tsLabel{font-size:12px;color:var(--muted);margin-right:4px}
+.tsBtn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1px solid color-mix(in srgb,var(--team) 35%,transparent);background:rgba(10,13,20,.85);color:#cfd4dd;font:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:background .2s,color .2s}
+.tsBtn i{width:9px;height:9px;border-radius:50%;background:var(--team)}
+.tsBtn small{font-size:10px;font-weight:600;color:var(--muted)}
+.tsBtn:hover{background:var(--team-soft)}
+.tsBtn.active{background:var(--team);color:#111;border-color:var(--team);cursor:default}
+.tsBtn.active i{background:#111}
+.tsBtn.active small{color:rgba(0,0,0,.6)}
+
+.plainPanel{margin-top:22px;border-top:3px solid #c9d1de}
+.plainGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:22px;align-items:start}
+.plainStory p{margin:0 0 12px;font-size:16px;line-height:1.6;color:#d7dbe3}
+.plainStory p:first-child{font-size:19px;font-weight:700;color:#fff}
+.plainAdvice h3{margin:0 0 10px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.adviceRow{display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:start;padding:12px;margin-bottom:8px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--team);border-radius:0 12px 12px 0}
+.adviceRow>img{width:56px;height:32px;object-fit:cover;border-radius:6px;background:#1a1f2b;margin-top:2px}
+.adviceWho{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px}
+.adviceWho b{font-size:14px}
+.adviceWho span{font-size:12px;color:var(--team)}
+.adviceMain p{margin:6px 0 0;font-size:13px;line-height:1.5;color:#b9bfca}
+.sev{font-style:normal;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-left:auto}
+.sev.bad{background:var(--ruin);color:#fff}
+.sev.mid{background:rgba(255,195,91,.14);color:#ffc35b;border:1px solid rgba(255,195,91,.35)}
+.sev.ok{background:rgba(255,255,255,.05);color:#9aa3b2;border:1px solid rgba(255,255,255,.1)}
+
+.confidence{color:#c9ced8;margin-top:8px}
+.clarity summary{cursor:pointer;list-style:none;font-size:13px;color:#aeb4c0;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.clarity summary::-webkit-details-marker{display:none}
+.clarity summary b{font-weight:900}
+.cl-clear{color:#ff6b6b}
+.cl-mid{color:#ffc35b}
+.cl-weak{color:#9aa3b2}
+.clarityQ{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1px solid #4a5160;font-size:11px;font-weight:900;color:#c9ced8}
+.clarity[open] .clarityQ{background:#c9ced8;color:#111}
+.clarity p,.clarity li{font-size:12px;line-height:1.5;color:#9aa1ad}
+.clarity p{margin:10px 0 6px}
+.clarity ul{margin:0;padding-left:18px;max-width:380px}
+.clarity li{margin-bottom:6px}
+.clarity li b{color:#d7dbe3}
+
+@media(max-width:860px){.plainGrid{grid-template-columns:1fr}}
+@media(max-width:600px){.plainStory p{font-size:15px}.plainStory p:first-child{font-size:17px}.adviceRow{grid-template-columns:44px 1fr}.adviceRow>img{width:44px;height:25px}.sev{margin-left:0}}
+@media(max-width:600px){.tsLabel{width:100%;text-align:center;margin:0}.tsBtn{padding:8px 12px;font-size:12px;gap:6px}}
