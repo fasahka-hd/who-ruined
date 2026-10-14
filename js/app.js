@@ -70,7 +70,7 @@ async function run(id,scroll=false,focus=null){
  try{
   const [m]=await Promise.all([loadMatch(id),loadConstants()]);
   if(runId!==currentRun)return;
-  analyze(m,focus); $("status").textContent=`Матч ${id} обработан`;
+  analyze(m,focus); startSideVideo(); $("status").textContent=`Матч ${id} обработан`;
   if(scroll)$("scoreboard").scrollIntoView({behavior:"smooth",block:"start"});
   setUrl(id,focus);
   if(!m.version)showParseOffer(id);
@@ -82,6 +82,30 @@ function setFocus(team){
  const y=scrollY; analyze(LAST,team); scrollTo(0,y);
  setUrl(LAST.match_id,team);
 }
+// Видео справа: без контролов, после старта его нельзя поставить на паузу или заглушить.
+// Если браузер не дал запустить со звуком (нет взаимодействия со страницей), играет без звука и включает звук при первом клике/нажатии.
+const sideVideo=$("sideVideo");
+let sideVideoOn=false, sideSoundOk=false;
+function startSideVideo(){
+ if(sideVideoOn)return;
+ sideVideoOn=true; sideVideo.classList.remove("hidden");
+ sideVideo.muted=false; sideVideo.volume=1;
+ sideVideo.play().then(()=>{sideSoundOk=true}).catch(()=>{sideVideo.muted=true; sideVideo.play().catch(()=>{})});
+}
+function unlockSideSound(){
+ if(!sideVideoOn||sideSoundOk)return;
+ sideSoundOk=true; sideVideo.muted=false; sideVideo.volume=1; sideVideo.play().catch(()=>{});
+}
+["pointerdown","keydown","touchstart"].forEach(t=>addEventListener(t,unlockSideSound,{capture:true}));
+sideVideo.addEventListener("pause",()=>{if(sideVideoOn)sideVideo.play().catch(()=>{})});
+sideVideo.addEventListener("volumechange",()=>{
+ if(!sideVideoOn)return;
+ if(sideVideo.volume<1)sideVideo.volume=1;
+ if(sideVideo.muted&&sideSoundOk)sideVideo.muted=false;
+});
+sideVideo.addEventListener("contextmenu",e=>e.preventDefault());
+if("mediaSession" in navigator)for(const a of ["pause","stop"])try{navigator.mediaSession.setActionHandler(a,()=>{})}catch(e){}
+
 $("form").addEventListener("submit",e=>{
  e.preventDefault(); const id=parseMatchId($("matchId").value);
  if(!id){$("status").textContent="Введи числовой Match ID или ссылку на матч (OpenDota / Dotabuff / STRATZ)";return;}
